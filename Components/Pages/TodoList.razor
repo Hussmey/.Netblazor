@@ -1,0 +1,41 @@
+@page "/todolist"
+@using BlazorApp.Models
+
+<h3>To-Do List</h3>
+
+<ul>
+    @foreach (var task in tasks)
+    {
+        <li>
+            <input type="checkbox" @bind="task.IsCompleted" />
+            @task.Description
+        </li>
+    }
+</ul>
+
+<div>
+    <input @bind="newTaskDescription" />
+    <button @onclick="AddTask">Add Task</button>
+</div>
+
+<div>
+    @if (!string.IsNullOrWhiteSpace(newTaskDescription))
+    {
+        <p>You entered: @newTaskDescription</p>
+    }
+</div>
+
+@code {
+    private List<TaskModel> tasks = new List<TaskModel>();
+    private string? newTaskDescription;
+
+    private void AddTask()
+    {
+        if (!string.IsNullOrWhiteSpace(newTaskDescription))
+        {
+            tasks.Add(new TaskModel { Description = newTaskDescription });
+            newTaskDescription = string.Empty;
+             Console.WriteLine("Task added!");
+        }
+    }
+}
